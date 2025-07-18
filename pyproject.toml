@@ -1,6 +1,6 @@
 [project]
 name = "my-project2"
-version = "0.1.4"
+version = "0.1.5"
 description = "This is my own project 2"
 authors = [
     {name = "Krzysztof Romanowski"}
