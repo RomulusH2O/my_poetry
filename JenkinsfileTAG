@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
+
+    stages {
+        stage('Detect Semver Bump') {
+            steps {
+                script {
+		    checkout scm
+                    
+                    sh 'git fetch --tags'
+   
+                    def latestTag = sh(returnStdout: true, script: 'git describe --tags --abbrev=0').trim()
+                    echo "[INFO] Latest tag: ${latestTag}"
+                    
+                    def previousTag = sh(returnStdout: true, script: 'git describe --tags `git rev-list --tags --skip=1 --max-count=1`').trim()
+                    echo "[INFO] Previous tag: ${previousTag}"
+                    
+                    def bumpType = getSemverChange(previousTag, latestTag)
+                    echo "[INFO] Semver bump detected: ${bumpType}"
+                }
+            }
+        }
+    }
+}
+
+def getSemverChange(String oldVer, String newVer) {
+
+    def (oldMajor, oldMinor, oldPatch) = oldVer.replaceAll(/^v/, '').tokenize('.').collect { it as int }
+    def (newMajor, newMinor, newPatch) = newVer.replaceAll(/^v/, '').tokenize('.').collect { it as int }
+
+    if (newMajor > oldMajor) return 'Major'
+    if (newMinor > oldMinor) return 'Minor'
+    if (newPatch > oldPatch) return 'Patch'
+    return 'No change'
+}
