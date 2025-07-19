@@ -16,7 +16,7 @@ pipeline {
                     def latestTag = sh(returnStdout: true, script: 'git describe --tags --abbrev=0').trim()
                     echo "[INFO] Latest tag: ${latestTag}"
                     
-                    def previousTag = sh(returnStdout: true, script: 'git describe --tags `git rev-list --tags --skip=1 --max-count=1`').trim()
+                    def previousTag = sh(returnStdout: true, script: 'git describe --tags `git rev-list --tags --skip=1 --max-count=1` --abbrev=0').trim()
                     echo "[INFO] Previous tag: ${previousTag}"
                     
                     def bumpType = getSemverChange(previousTag, latestTag)
