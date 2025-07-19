@@ -48,8 +48,8 @@ def getSemVerChangeInfo(oldVer, newVer) {
     def (oldMajor, oldMinor, oldPatch) = oldVer.tokenize('.').collect { it as int }
     def (newMajor, newMinor, newPatch) = newVer.tokenize('.').collect { it as int }
 
-    if (newMajor > oldMajor) return 'Major version changed from ${oldMajor} to ${newMajor}'
-    if (newMinor > oldMinor) return 'Minor version changed from ${oldMinor} to ${newMinor}'
-    if (newPatch > oldPatch) return 'Patch version changed from ${oldPatch} to ${newPatch}'
+    if (newMajor > oldMajor) return "Major version changed from ${oldMajor} to ${newMajor}"
+    if (newMinor > oldMinor) return "Minor version changed from ${oldMinor} to ${newMinor}"
+    if (newPatch > oldPatch) return "Patch version changed from ${oldPatch} to ${newPatch}"
     return 'Version has been changed improperly'
 }
