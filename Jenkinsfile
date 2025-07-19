@@ -39,7 +39,7 @@ def readPreviousVersion() {
         script: 'git show HEAD~1:pyproject.toml',
         returnStdout: true
         ).trim()
-    def matcher = prevContent =~ /version\s*=\s*"[^"]+)"/
+    def matcher = prevContent =~ /version\s*=\s*"([^"]+)"/
     return matcher ? matcher[0][1] : null
 }
 
